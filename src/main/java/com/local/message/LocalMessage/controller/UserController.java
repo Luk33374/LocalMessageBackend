@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -27,11 +24,13 @@ public class UserController {
         return new ResponseEntity<String>(userService.saveUser(userDTO), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @GetMapping("/")
     public String hello(){
         return "Hello";
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<User> authentication(@RequestBody UserDTO userDTO){
@@ -41,7 +40,7 @@ public class UserController {
     @GetMapping("/login")
     @ResponseBody
     public ResponseEntity<String> authenticationGet(){
-        String str="";
+        String str="aa";
         return new ResponseEntity<String>(str,HttpStatus.OK);
     }
 }
