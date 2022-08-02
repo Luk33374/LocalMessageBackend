@@ -12,18 +12,28 @@ public class Message {
     private Long id;
     private String messageContent;
     private Long userId;
+    private Long fromUser;
     private LocalDate date;
     private LocalTime time;
 
-    public Message(Long id, String messageContent, Long userId, LocalDate date, LocalTime time) {
+    public Message(Long id, String messageContent, Long userId, Long fromUsed, LocalDate date, LocalTime time) {
         this.id = id;
         this.messageContent = messageContent;
         this.userId = userId;
+        this.fromUser = fromUsed;
         this.date = date;
         this.time = time;
     }
 
     public Message() {
+    }
+
+    public Long getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(Long fromUsed) {
+        this.fromUser = fromUsed;
     }
 
     public Long getId() {

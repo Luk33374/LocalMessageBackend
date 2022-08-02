@@ -27,7 +27,7 @@ public class UserService {
 
     public ResponseEntity<User> authenticate(UserDTO userDTO){
         User user=userRepository.findUserByUsername(userDTO.getUsername());
-        if(user==null||!user.getPassword().equals(userDTO.getPassword()))return new ResponseEntity<>(null,HttpStatus.UNAUTHORIZED);
+        if(user==null||!user.getPassword().equals(userDTO.getPassword()))return new ResponseEntity<>(new User(null,null),HttpStatus.OK);
         else return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

@@ -30,6 +30,7 @@ public class MessageService {
         message.setTime(LocalTime.now());
         message.setDate(LocalDate.now());
         message.setMessageContent(messageDTO.getMessageContent());
+        message.setFromUser(new Long(messageDTO.getFromUser()));
         message.setUserId(new Long(messageDTO.getUserId()));
         messageRepository.save(message);
         return message.getId();
