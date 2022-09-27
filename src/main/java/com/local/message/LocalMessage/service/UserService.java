@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+
 @Service
 public class UserService {
     private UserRepository userRepository;
@@ -29,6 +32,12 @@ public class UserService {
         User user=userRepository.findUserByUsername(userDTO.getUsername());
         if(user==null||!user.getPassword().equals(userDTO.getPassword()))return new ResponseEntity<>(new User(null,null),HttpStatus.OK);
         else return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    public String getUserNameById(Long userId){
+        Optional<User> userFound = userRepository.findById(userId);
+        if(userFound.isPresent())return userFound.get().getUsername();
+        else return "";
     }
 
 }

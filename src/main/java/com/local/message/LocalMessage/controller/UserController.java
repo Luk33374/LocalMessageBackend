@@ -25,6 +25,12 @@ public class UserController {
     }
 
     @CrossOrigin
+    @GetMapping("/getUserNameWithUserId/{userId}")
+    public ResponseEntity<String> getUserNameByUserId(@PathVariable Long userId){
+        return new ResponseEntity<String>(userService.getUserNameById(userId),HttpStatus.OK);
+    }
+
+    @CrossOrigin
     @GetMapping("/")
     public String hello(){
         return "Hello";
