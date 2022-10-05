@@ -25,6 +25,7 @@ public class MessageService {
     public Message[] getMessageByUser(String id){
         return messageRepository.getMessageByUserId(Long.parseLong(id));
     }
+
     public Long saveMessage(MessageDTO messageDTO){
         Message message=new Message();
         message.setTime(LocalTime.now());
