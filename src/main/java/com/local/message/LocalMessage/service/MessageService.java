@@ -12,6 +12,8 @@ import java.time.LocalTime;
 @Service
 public class MessageService {
     private MessageRepository messageRepository;
+    private int byUserIdIndex=0;
+    private int fromUserIndex=0;
 
     @Autowired
     public MessageService(MessageRepository messageRepository) {
@@ -23,7 +25,28 @@ public class MessageService {
     }
 
     public Message[] getMessageByUser(String id){
-        return messageRepository.getMessageByUserId(Long.parseLong(id));
+        int messageArrayLength;
+        Message[] allUserMessages;
+        Message[] byUserId = messageRepository.getMessageByUserId(Long.parseLong(id));
+        Message[] fromUser = messageRepository.getMessageByFromUser(Long.parseLong(id));
+        messageArrayLength=byUserId.length+fromUser.length;
+        allUserMessages= new Message[messageArrayLength];
+        byUserIdIndex=0;
+        fromUserIndex=0;
+        for(int i=0;i<messageArrayLength;i++){
+            if(fromUser.length>fromUserIndex){
+                if(byUserId.length>byUserIdIndex)allUserMessages[i]=getOlderMessage(fromUser[fromUserIndex],byUserId[byUserIdIndex]);
+                else {
+                    allUserMessages[i]=fromUser[fromUserIndex];
+                    fromUserIndex++;
+                }
+            }
+            else {
+                allUserMessages[i] = byUserId[byUserIdIndex];
+                byUserIdIndex++;
+            }
+        }
+        return allUserMessages;
     }
 
     public Long saveMessage(MessageDTO messageDTO){
@@ -35,5 +58,26 @@ public class MessageService {
         message.setUserId(new Long(messageDTO.getUserId()));
         messageRepository.save(message);
         return message.getId();
+    }
+
+    private Message getOlderMessage(Message fromUser, Message byUser){
+        if(fromUser.getDate().isBefore(byUser.getDate())){
+            fromUserIndex++;
+            return fromUser;
+        }
+        else if(fromUser.getDate().isEqual(byUser.getDate())){
+            if(fromUser.getTime().isBefore(byUser.getTime())){
+                fromUserIndex++;
+                return fromUser;
+            }
+            else {
+                byUserIdIndex++;
+                return byUser;
+            }
+        }
+        else {
+            byUserIdIndex++;
+            return byUser;
+        }
     }
 }
