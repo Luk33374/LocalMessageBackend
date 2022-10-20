@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Set;
 
 @Service
 public class MessageService {
@@ -60,6 +61,13 @@ public class MessageService {
         return message.getId();
     }
 
+    public Set<Long> deleteMessage(Set<Long> ids){
+        for(Long id:ids) {
+            Message message = messageRepository.findById(id).get();
+            messageRepository.delete(message);
+        }
+        return ids;
+    }
     private Message getOlderMessage(Message fromUser, Message byUser){
         if(fromUser.getDate().isBefore(byUser.getDate())){
             fromUserIndex++;
@@ -80,4 +88,5 @@ public class MessageService {
             return byUser;
         }
     }
+
 }
