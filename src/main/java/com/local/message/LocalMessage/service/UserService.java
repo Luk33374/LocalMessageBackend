@@ -8,6 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -38,6 +41,13 @@ public class UserService {
         Optional<User> userFound = userRepository.findById(userId);
         if(userFound.isPresent())return userFound.get().getUsername();
         else return "";
+    }
+
+    public Map<String,Long> getAllUsers(){
+        Map<String,Long> users=new HashMap<>();
+        List<User> allUsers=userRepository.findAll();
+        for (User user:allUsers)users.put(user.getUsername(),user.getId());
+        return users;
     }
 
 }

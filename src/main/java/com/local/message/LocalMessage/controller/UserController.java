@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 public class UserController {
     private UserService userService;
@@ -48,5 +50,10 @@ public class UserController {
     public ResponseEntity<String> authenticationGet(){
         String str="aa";
         return new ResponseEntity<String>(str,HttpStatus.OK);
+    }
+
+    @GetMapping("/allUsers")
+    public ResponseEntity<Map> getAllUsers(){
+        return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
     }
 }
